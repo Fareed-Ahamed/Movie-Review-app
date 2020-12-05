@@ -1,0 +1,72 @@
+<button class="btn btn-primary" style="float:right" (click)="addReview()"> Add </button>
+<button class="btn btn-primary" style="float:right" (click)="goBack()"> Back </button>
+<div class="table-responsive">
+  <table class="table"
+         *ngIf='reviews && reviews.length'>
+    <thead>
+      <tr>
+        <th>Reviewer</th>
+        <th>Review</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor='let review of reviews'>
+        <td>{{ review.UserName }}</td>
+        <td style="cursor: pointer" (click)="viewReview(review)">{{ review.Review }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="modal" id="#myModal" *ngIf="popupType == 'viewReview'" role="dialog" [ngStyle]="{'display':display}">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Review Details</h4>
+        <button type="button" class="close" data-dismiss="modal" (click)="closeModel()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <div class="form-group">
+            <label for="productName">Reviewer</label>
+            <p>{{selectedReview.UserName}}</p>
+          </div>
+          <div class="form-group">
+            <label for="productDescription">Review</label>
+            <textarea disabled>{{ selectedReview.Review }}</textarea>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="closeModel()">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="modal" id="#myModal1" *ngIf="popupType == 'addReview'" role="dialog" [ngStyle]="{'display':display}">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Add Review</h4>
+        <button type="button" class="close" data-dismiss="modal" (click)="closeModel()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <form>
+            <div class="form-group">
+              <label for="productName">Write your review...</label>
+              <textarea [(ngModel)]="ReviewDetails.Review" [ngModelOptions]="{standalone: true}"> {{ReviewDetails.Review}} </textarea>
+            </div>
+            <button type="submit" class="btn btn-success" (click)="saveReview()">Add</button>
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="closeModel()">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>

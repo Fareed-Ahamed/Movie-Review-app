@@ -1,0 +1,138 @@
+<div class="card">
+  <div class="card-header">
+    {{pagetitle}}
+    <button class="btn btn-primary" style="float:right" (click)="logout()"> Logout </button>
+  </div>
+
+  <div class="card-body">
+    
+    
+
+    <button class="btn btn-primary" *ngIf="role == 'Admin'" style="float:right" (click)="openAddModel()"> Add </button>
+    <div class="table-responsive">
+      <table class="table"
+             *ngIf='products && products.length'>
+        <thead>
+          <tr>
+            <th>
+              <button class="btn btn-primary"
+                      (click)='toogleImage()'>
+                {{showImg ? 'Hide Image' : 'Show Image'}}
+              </button>
+            </th>
+            <th>Movie Id</th>
+            <th>Movie Name</th>
+            <th>Synopsis</th>
+            <th>Genre</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor='let product of filteredProducts'>
+            <td>Image</td>
+            <td>{{ product.MovieName}}</td>
+            <td>{{product.Synopsis}}</td>
+            <td>{{product.Genre}}</td>
+            <td>
+              <span *ngIf="confirmDelete">
+                <span>Are you sure to delete?</span>
+                <div class="row">
+                  <button class="btn btn-danger" (click)="deleteId(product.Id)"> YES </button>
+                  <button class="btn btn-primary" (click)="confirmDelete=false"> NO </button>
+                </div>
+              </span>
+              <button *ngIf="!confirmDelete && role == 'Admin'" class="btn btn-primary"
+                      (click)="confirmDelete=true">
+                Delete
+              </button>
+            </td>
+            <td>
+              <div class="container">
+                <button class="btn btn-primary" *ngIf="role == 'Admin'" (click)="openModel(product)">Update</button>
+              </div>
+
+            </td>
+            <td>
+              <div class="container">
+                <button class="btn btn-primary" (click)="openReviews(product)">Reviews</button>
+              </div>
+
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="#myModal" *ngIf="popupType == 'update'" role="dialog"  [ngStyle]="{'display':display}">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Update Details</h4>
+        <button type="button" class="close" data-dismiss="modal" (click)="closeModel()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <form>
+            <div class="form-group">
+              <label for="productName">Movie Name</label>
+              <input type="text" name="productName" value="ProductDetails.MovieName" data-beatpicker="true" class="form-control" id="productName" required
+                     [(ngModel)]="ProductDetails.MovieName"  />
+            </div>
+            <div class="form-group">
+              <label for="productDescription">Synopsis</label>
+              <input type="text" class="form-control" id="productDescription" required
+                     [(ngModel)]="ProductDetails.Synopsis" name="productDescription" />
+            </div>
+            <div class="form-group">
+            <label for="Genre">Genre</label>
+            <input type="text" class="form-control" id="imageUrl" required
+                   [(ngModel)]="ProductDetails.Genre" name="imageUrl" />
+        </div>
+        <button type="submit" class="btn btn-success" (click)="submit()">Update</button>
+        </form>
+      </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="closeModel()">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="modal" id="#myModal1" *ngIf="popupType == 'add'" role="dialog" [ngStyle]="{'display':display}">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Add Movie</h4>
+        <button type="button" class="close" data-dismiss="modal" (click)="closeModel()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <form>
+            <div class="form-group">
+              <label for="productName">Movie Name</label>
+              <input type="text" name="productName" value="ProductDetails.MovieName" data-beatpicker="true" class="form-control" id="productName" required
+                     [(ngModel)]="ProductDetails.MovieName" />
+            </div>
+            <div class="form-group">
+              <label for="productDescription">Synopsis</label>
+              <input type="text" class="form-control" id="productDescription" required
+                     [(ngModel)]="ProductDetails.Synopsis" name="productDescription" />
+            </div>
+            <div class="form-group">
+              <label for="Genre">Genre</label>
+              <input type="text" class="form-control" id="imageUrl" required
+                     [(ngModel)]="ProductDetails.Genre" name="imageUrl" />
+            </div>
+            <button type="submit" class="btn btn-success" (click)="add()">Add</button>
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="closeModel()">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
